@@ -1,0 +1,191 @@
+# GenshinArtifacter_Discrord-BOT
+
+# これはなに？
+
+現神の聖遺物のスコアを計算して画像を生成する「ArtifacterImageGen」をDiscord用BOTとして利用できるようにするためのコードです。
+
+私は「ArtifacterImageGen」を元に作成したDiscordBOTを誰でも簡単に使えるように、MITライセンスでコードを配布することにしました。
+
+これは、「ArtifacterImageGen」がgithubでMITライセンスで配布されているおかげです。
+
+Hyugoさんに心から感謝します。
+
+githubを使うのはほぼ初めてなので、間違い等あるかもしれません。
+
+間違いがあればご連絡いただけると幸いです。
+
+# 動作環境
+Python 3.11.2
+
+Discord.py 2.2.2
+
+python-dotenv 1.0.0
+
+Pillow 9.5.0
+
+PyYAML 6.0
+
+requests 2.28.2
+
+Node.js 18.16.0
+
+npm 9.5.1
+
+# セットアップ方法
+
+## Windows
+
+Editing...
+
+## Linux(Debian もしくは Ubuntu)
+
+### DiscordBOTの作成
+
+DiscordDeveloperPortalにアクセスします。
+
+https://discord.com/developers/applications
+
+「New Application.」をクリックします。
+
+(すでに専用BOTを作成している場合は、トークン生成まで読み飛ばしてください)
+
+BOTの名称を決め、「NAME」欄に入力する。
+
+利用規約とデベロッパーポリシーに同意し、「Create」をクリックします。
+
+「SETTING」の「BOT」タブを選択し、「Add Bot」をクリックします。
+
+確認ダイアログが表示されたら、「Yes, do it!」をクリックします。
+
+(2FAが設定されている場合は、認証してください)。
+
+### トークン生成
+
+「TOKEN」の下にある「Copy」をクリックして、BOTトークンをコピーします。
+
+このトークンをメモ帳などにメモ（ペースト）しておく。
+
+このトークンは、流出しないように注意してください。
+
+### Setting BOT
+
+「Privileged Gateway Intents」の「PRESENCE INTENT」、「SERVER MEMBERS INTENT」、「MESSAGE CONTENT INTENT」3つすべてをONにします。
+
+変更を保存するには、忘れずに「Save Changes」をクリックしてください。
+
+### ボットによるサーバーへの参加を許可する
+
+メニューから「OAuth2」→「URL Generator」を選択します。
+
+「SCOPES」の「BOT」にチェックを入れ、「BOT PERMISSIONS」を必要なパーミッションに設定します。
+
+(サーバーを所有し、本ボットのコードを信頼している場合は、「Administrator」チェックボックスをチェックしてもよいと思われます。)
+
+「GENERATED URL」欄に表示されたURLをコピーして、コピーしたURLにアクセスします。
+
+ボットを参加させたいサーバーを選択し、「Yes」をクリックします。
+
+認証が正しいことを確認し、認証をクリックします。
+
+hCaptchaの認証をクリアして、BOTをエンカレッジする。
+
+これで、Discord BOTの事前設定は完了です。
+
+### ソースをダウンロード
+このリポジトリをgithubからzipファイルでダウンロードするか、GithubCLIなどでcloneしてください。
+
+https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT
+
+(ZIPファイルでダウンロードされた方は、解凍してください。)
+
+ディレクトリ内の「.env」ファイルを開き、「Please Here Your Discord BOT TOKEN」を「Token Generation」でコピーしたBOTトークンに置き換えます。
+
+### Pythonのセットアップ
+
+バージョンの確認コマンドを実行してpythonがインストールされているかを確認します。
+
+```
+python3 --version
+```
+
+バージョンが表示されたらOKです。
+
+pipをインストールします。
+
+```
+sudo apt update
+sudo apt install python3-pip
+```
+
+pipを使用して、各ライブラリをインストールします。
+
+コマンドは以下のとおりです。
+
+各種ライブラリをインストールします。
+```
+pip3 install discord.py
+```
+
+```
+pip3 install python-dotenv
+```
+
+```
+pip3 install Pillow
+```
+
+```
+pip3 install pyyaml
+```
+
+```
+pip3 install requests
+```
+
+すべてが正しくインストールされたことを確認してください。
+
+### BOTを起動する
+
+コマンドプロンプトなどを起動します。
+
+カレントディレクトリをソースディレクトリに変更します。
+
+次のコマンドを実行します。
+
+```
+python3 bot_start.py
+```
+
+(シェルスクリプトファイルを作成することをお勧めします。）
+
+「Ready! Name:~~」と表示され、Discord上でBOTが正常に動作していることを確認してください。
+
+# アセット更新
+
+ArtifacterImageGenの仕様上、原神のバージョンアップが行われた際に追加される新要素に対応するためにはアセットの更新が必要になります。
+
+アセット更新のコードを現在作成中ですので、しばらくお待ちください。
+
+# 著作権表示
+
+ArtifacterImageGen Copyright (c) Hyugo(FuroBath)
+
+GenshinArtifacter_Discrord-BOT Copyright (c) mendoitarou_
+
+
+# お借りしたもの
+
+[FuroBath/ArtifacterImageGen](https://github.com/FuroBath/ArtifacterImageGen)
+
+# 翻訳
+このREADME-ja.mdは、DeepL翻訳ツールを使用して、日本語から英語に翻訳した後、英語から日本語に翻訳されています。
+
+https://www.deepl.com/ja/translator
+
+# 連絡先
+
+返信に時間がかかる場合がありますので、ご了承ください。
+
+Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
+
+E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
