@@ -5,6 +5,14 @@ from decimal import Decimal, ROUND_HALF_UP
 #ArtifacterImageGenをインポート
 from ArtifacterImageGen import Generater
 
+# コンフィグファイル読み込み
+import codecs,json
+def read_json(path):
+    with codecs.open(path,encoding='utf-8') as f:
+        data = json.load(f)
+    return data
+config = read_json('./config.json')
+
 # 元素名変換
 conv_element_name = {# 並びはロード画面の順番
     'Fire' : '炎',
@@ -93,6 +101,14 @@ reliquary_type_name = {
     'cup' : 'EQUIP_RING',
     'crown' : 'EQUIP_DRESS'
 }
+
+# UIDからプレイヤー情報のデータを取得
+def usr_info_request(uid):
+    bot_ver = config["BOT_Ver"]
+    Administrator_Name = config["Administrator_Name"]
+    headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
+    usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
+    return usr_info_json_ori.json()# JSON形式から変換
 
 # 聖遺物ステータス
 def reliquary_status_dic(character_parth_json,reliquary_info_list,name_data_json,type):
@@ -193,9 +209,7 @@ def score_json_parth(uid,character_id,calt_type):
     uid = int(uid)
     character_id = int(character_id)
     # ユーザー情報JSON
-    usr_info_json_url = f'https://enka.network/api/uid/{uid}'
-    usr_info_json_ori = requests.get(usr_info_json_url)
-    usr_info_json = usr_info_json_ori.json()# JSON形式から変換
+    usr_info_json = usr_info_request(uid)
     # キャラクター情報JSON
     character_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json')
     character_json = character_json_ori.json()# JSON形式から変換
