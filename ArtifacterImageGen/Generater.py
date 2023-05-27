@@ -10,6 +10,13 @@ import base64
 from PIL import ImageFile 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
+# コンフィグファイル読み込み
+def read_json(path):
+    with codecs.open(path,encoding='utf-8') as f:
+        data = json.load(f)
+    return data
+config = read_json('./config.json')
+
 def culculate_op(data:dict):
 
     cwd = os.path.dirname(os.path.abspath(__file__))
@@ -565,7 +572,14 @@ def generation(data):
             Base.paste(badge,(1843-i*45,533),mask=badge_mask)
             
     #Base.show()
-    Base.save(f'{cwd}/Tests/Image.png')
+
+    # 画像にUIDをつけるかどうかの設定に合わせて保存画像の名前変更
+    if(config["image_uid_mode"] == True):
+        uid = data.get('uid')
+        Base.save(f'{cwd}/Tests/Image_{uid}.png')
+    else:
+        if(config["image_uid_mode"] == False):
+            Base.save(f'{cwd}/Tests/Image.png')
             
         
             
