@@ -1,3 +1,6 @@
 {
-    "uid_register" : true
+    "BOT_Ver" : 1.0,
+    "Administrator_Name" : "Please Enter Your Name",
+    "uid_register" : true,
+    "image_uid_mode" : true
 }
