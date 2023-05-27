@@ -67,8 +67,17 @@ def check_enka_status(uid):
     if(r.status_code == 503):
         return 'Server_Pause'
 
+# UIDからプレイヤー情報のデータを取得
+def usr_info_request(uid):
+    bot_ver = config["BOT_Ver"]
+    Administrator_Name = config["Administrator_Name"]
+    headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
+    usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
+    return usr_info_json_ori.json()# JSON形式から変換
+
+
 # UIDからプレイヤー情報のembedを作成
-def usr_info_embed_gene(uid):
+def usr_info_embed_gene(uid, user_id):
     if(check_enka_status(f'{uid}') != 'OK'):
         if(check_enka_status(f'{uid}') == 'Invalid_UID'):
             embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
@@ -84,9 +93,7 @@ def usr_info_embed_gene(uid):
             return embed
     else:
         # プレイヤー情報を取得
-        usr_info_json_url = f'https://enka.network/api/uid/{uid}/'
-        usr_info_json_ori = requests.get(usr_info_json_url)
-        usr_info_json = usr_info_json_ori.json()# JSON形式から変換
+        usr_info_json = calc_save[f'{user_id}']['player_info_data']# JSON形式から変換
         name_data_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json')# アイテムなどの名前関連の情報JSON
         name_data_json = name_data_json_ori.json()# JSON形式から変換
         # アイコンのURLを取得
@@ -161,7 +168,12 @@ class Calc_Type_Select_Menu(discord.ui.View):
         character_name = name_data_json['ja'][f'{character_name_hash}']
         embed_image=discord.Embed(title=character_name)
         fname="Image.png"
-        file = discord.File(fp=f'./ArtifacterImageGen/Tests/Image.png',filename=fname,spoiler=False)
+        # 画像にUIDをつけるかどうかの設定に合わせて参照画像変更
+        if(config["image_uid_mode"] == True):
+            file = discord.File(fp=f'./ArtifacterImageGen/Tests/Image_{uid}.png',filename=fname,spoiler=False)
+        else:
+            if(config["image_uid_mode"] == False):
+                file = discord.File(fp=f'./ArtifacterImageGen/Tests/Image.png',filename=fname,spoiler=False)
         embed_image.set_image(url=f"attachment://{fname}")
         await interaction.delete_original_response()
         await interaction.followup.send(file=file, embed=embed_image, ephemeral=True)
@@ -176,10 +188,7 @@ class Character_Select_Menu(discord.ui.View):
     async def selectMenu(self, interaction: discord.Interaction, select: discord.ui.Select):
         # 詳細公開中か確認
         ## プレイヤー情報を取得
-        uid = calc_save[f'{interaction.user.id}']['uid']
-        usr_info_json_url = f'https://enka.network/api/uid/{uid}'
-        usr_info_json_ori = requests.get(usr_info_json_url)
-        usr_info_json = usr_info_json_ori.json()# JSON形式から変換
+        usr_info_json = calc_save[f'{interaction.user.id}']['player_info_data']# JSON形式から変換
         if("avatarInfoList" in usr_info_json):
             # 詳細公開中の場合
             # 選択キャラ一時保存
@@ -195,11 +204,9 @@ class Character_Select_Menu(discord.ui.View):
             await interaction.response.edit_message(embed=embed)
 
 # UIDからキャラクターの選択メニュー生成
-def character_select_menu_gene(uid):
+def character_select_menu_gene(user_id):
     # プレイヤー情報を取得
-    usr_info_json_url = f'https://enka.network/api/uid/{uid}'
-    usr_info_json_ori = requests.get(usr_info_json_url)
-    usr_info_json = usr_info_json_ori.json()# JSON形式から変換
+    usr_info_json = calc_save[f'{user_id}']['player_info_data']# JSON形式から変換
     # 名前翻訳JSON
     name_data_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json')# アイテムなどの名前関連の情報JSON
     name_data_json = name_data_json_ori.json()# JSON形式から変換
@@ -260,10 +267,12 @@ class Form_uid(discord.ui.Modal, title='UID入力'):
         # UIDの一時保存
         calc_save[f'{interaction.user.id}'] = {}
         calc_save[f'{interaction.user.id}']['uid'] = self.uid
+        # プレイヤー情報の一次保存
+        calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(self.uid)
         # ユーザー情報生成
-        embed_usr_info = usr_info_embed_gene(f'{self.uid}')
+        embed_usr_info = usr_info_embed_gene(f'{self.uid}', interaction.user.id)
         # キャラクター選択メニュー生成
-        character_select = character_select_menu_gene(f'{self.uid}')
+        character_select = character_select_menu_gene(interaction.user.id)
         # 送信
         #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)
         await interaction.followup.send(view=character_select, embed=embed_usr_info, ephemeral=True)
@@ -283,9 +292,9 @@ class uid_not_submit_button(discord.ui.Button):
     def __init__(self, *, style: discord.ButtonStyle = discord.ButtonStyle.secondary, label: str = "登録しない"):
         super().__init__(style=style, label=label)
     async def callback(self, interaction: discord.Interaction):
-        embed=discord.Embed(title='UIDを登録しない場合', description='「/build_no」コマンドを使用してください。')
-        embed.set_footer(text='Genshin_Image_Generator_BOT')
-        await interaction.response.send_message(embed=embed, ephemeral=True)
+        modal = Form_uid()
+        await interaction.response.send_modal(modal)
+        await modal.wait()
 
 # ビルドコマンド
 @tree.command(name="build",description="聖遺物スコアを計算し、画像を生成します。")
@@ -296,8 +305,10 @@ async def build_command(interaction:discord.Interaction):
             await interaction.response.defer(ephemeral=True)
             calc_save[f'{interaction.user.id}'] = {}
             calc_save[f'{interaction.user.id}']['uid'] = uid_list[f'{interaction.user.id}']
-            embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'])
-            character_select = character_select_menu_gene(uid_list[f'{interaction.user.id}'])
+            # プレイヤー情報の一次保存
+            calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'])
+            embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'], interaction.user.id)
+            character_select = character_select_menu_gene(interaction.user.id)
             #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)
             await interaction.followup.send(view=character_select, embed=embed_usr_info, ephemeral=True)
         else:
@@ -312,13 +323,6 @@ async def build_command(interaction:discord.Interaction):
     if(config['uid_register'] == False):
         modal = Form_uid()
         await interaction.response.send_modal(modal)
-
-#UIDを登録しないで画像生成
-@tree.command(name="build_no",description="UIDを登録せずに聖遺物スコアを計算し、画像を生成します。")
-async def build_not_uid_submit_command(interaction:discord.Interaction):
-    modal = Form_uid()
-    await interaction.response.send_modal(modal)
-    await modal.wait()
 
 @tree.command(name="uid_submit",description="UIDを登録・再登録します。")
 async def uid_submit(interaction:discord.Interaction):
