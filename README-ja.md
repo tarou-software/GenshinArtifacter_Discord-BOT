@@ -35,9 +35,17 @@ npm 9.5.1
 
 ## Windows
 
-Editing...
+<details>
+<summary>クリックして開く</summary>
+
+編集中...
+
+</details>
 
 ## Linux(Debian もしくは Ubuntu)
+
+<details>
+<summary>クリックして開く</summary>
 
 ### DiscordBOTの作成
 
@@ -67,7 +75,7 @@ BOTの名称を決め、「NAME」欄に入力する。
 
 このトークンは、流出しないように注意してください。
 
-### Setting BOT
+### BOTのゲートウェイ設定
 
 「Privileged Gateway Intents」の「PRESENCE INTENT」、「SERVER MEMBERS INTENT」、「MESSAGE CONTENT INTENT」3つすべてをONにします。
 
@@ -144,6 +152,65 @@ pip3 install requests
 
 すべてが正しくインストールされたことを確認してください。
 
+### コンフィグを変更する
+
+BOTのソースコードが入っているディレクトリ内に、「config.json」というファイルが存在します。
+
+このファイルはBOTの設定を変更するものです。
+
+**起動前に変更する必要がある箇所がある**ので、テキストエディタなどで開きます。
+
+```
+"Administrator_Name" : "Please Enter Your Name",
+```
+
+という行の「Please Enter Your Name」をあなたのニックネームに変更してください。
+
+これは、EnkaNetworkのAPIを使用するために**必要な設定です**ので**必ず**行ってください。
+
+また、
+
+```
+"BOT_Ver" : 1.0,
+```
+
+という項目は**変更しないで**ください。
+
+<details>
+<summary>任意の設定</summary>
+
+#### uid_register
+
+```
+"uid_register" : true,
+```
+
+この項目を変更することで、UIDの登録を可能にするかしないかを設定できます。
+
+- 有効にする場合は、「true」
+- 無効にする場合は、「false」
+
+に変更してください。
+
+(初期設定は有効の「true」です。)
+
+#### image_uid_mode
+
+```
+"image_uid_mode" : true
+```
+
+この項目を変更することで、タイミングによっては別の人の画像が送信されるという事態を回避することができます。
+
+- 有効にする場合は、「true」
+- 無効にする場合は、「false」
+
+に変更してください。
+
+(初期設定は有効の「true」です。)
+
+</details>
+
 ### BOTを起動する
 
 コマンドプロンプトなどを起動します。
@@ -159,6 +226,8 @@ python3 bot_start.py
 (シェルスクリプトファイルを作成することをお勧めします。）
 
 「Ready! Name:~~」と表示され、Discord上でBOTが正常に動作していることを確認してください。
+
+</details>
 
 # アセット更新
 
@@ -189,3 +258,27 @@ https://www.deepl.com/ja/translator
 Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
+
+# リリースノート
+
+## 1.1.0
+
+<details>
+<summary>クリックして開く</summary>
+
+- APIのルールに従えていない箇所があったので修正。
+- UIDを登録しなかった場合の動作を変更
+- 動作変更に伴い、/build_noコマンドの削除
+- 画像生成の際、タイミングによっては別ユーザーの画像が生成される可能性がある問題を修正(コンフィグでON/OFF可能)
+- 動作変更に伴い、READMEに説明を追記
+
+</details>
+
+## 1.0.0
+
+<details>
+<summary>クリックして開く</summary>
+
+- 初期リリース
+
+</details>

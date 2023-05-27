@@ -31,9 +31,17 @@ requests 2.28.2
 
 ## Windows
 
+<details>
+<summary>Click to open</summary>
+
 Editing...
 
+</details>
+
 ## Linux(Debian or Ubuntu)
+
+<details>
+<summary>Click to open</summary>
 
 ### Create Disocrd BOT
 
@@ -136,6 +144,65 @@ pip3 install requests
 
 Verify that everything was installed correctly.
 
+### Change the configuration
+
+In the directory containing the BOT source code, there is a file called "config.json".
+
+This file modifies the BOT configuration.
+
+Open the file in a text editor, etc., **as some parts need to be changed before starting**.
+
+```
+"Administrator_Name" : "Please Enter Your Name",
+```
+
+Please change "Please Enter Your Name" to your nickname in the line "Please Enter Your Name".
+
+This is a **necessary setting** to use the EnkaNetwork API, so be sure to **do** this.
+
+Also,
+
+```
+"BOT_Ver" : 1.0,
+```
+
+Do not **change** the item.
+
+<details>
+<summary>Optional settings</summary>
+
+#### uid_register
+
+```
+"uid_register" : true,
+```
+
+By changing this item, you can enable or disable UID registration.
+
+Change to 
+
+- "true" to enable
+- "false" to disable
+
+(The default setting is "true", which is enabled.)
+
+#### image_uid_mode
+
+```
+"image_uid_mode" : true
+```
+
+By changing this item, you can avoid a situation where another person's image is sent depending on the timing.
+
+Change to 
+
+- "true" to enable
+- "false" to disable
+
+(The default setting is "true", which is enabled.)
+
+</details>
+
 ### Make the BOT work
 
 Launch a command prompt or similar.
@@ -151,6 +218,8 @@ python bot_start.py
 (It is recommended to create a batch file.)
 
 "Ready! Name:~~" and confirm that the BOT is working properly on Discord.
+
+</details>
 
 # Asset Update
 
@@ -182,3 +251,27 @@ Please understand that it may take some time to reply.
 Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
+
+# Release Notes
+
+## 1.1.0
+
+<details>
+<summary>Click to open</summary>
+
+- Fixed a part that did not follow the API rules.
+- Changed behavior when UID is not registered.
+- Removed /build_no command due to changed behavior.
+- Fixed a problem that images of different users may be generated depending on timing when generating images (can be turned on/off by configuration).
+- Added explanation to README to reflect changes in operation.
+
+</details>
+
+## 1.0.0
+
+<details>
+<summary>Click to open</summary>
+
+- Initial Release
+
+</details>
