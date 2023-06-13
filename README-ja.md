@@ -10,6 +10,10 @@
 
 Hyugoさんに心から感謝します。
 
+また、「EnkaNetworkAPI」ライブラリがあることで、アセットの更新が容易になりました。
+
+yuko1101に心から感謝します。
+
 githubを使うのはほぼ初めてなので、間違い等あるかもしれません。
 
 間違いがあればご連絡いただけると幸いです。
@@ -233,7 +237,53 @@ python3 bot_start.py
 
 ArtifacterImageGenの仕様上、原神のバージョンアップが行われた際に追加される新要素に対応するためにはアセットの更新が必要になります。
 
-アセット更新のコードを現在作成中ですので、しばらくお待ちください。
+## 初期設定
+
+<details>
+<summary>クリックして開く</summary>
+
+### Node.jsのインストール
+
+以下のコマンドでLTS版のNode.jsをインストールします。
+
+```
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install nodejs -y
+```
+
+### ライブラリのインストール
+
+カレントディレクトリをソースディレクトリに変更します。
+
+次のコマンドを実行します。
+
+```
+npm install enka-network-api
+```
+
+</details>
+
+## 更新
+
+<details>
+<summary>クリックして開く</summary>
+
+**重要**
+更新するときは、EnkaNetworkがメンテナンスをしていないことを確認してください。
+
+更新をするには、カレントディレクトリをソースディレクトリに変更し以下のコマンドを実行します。
+
+```
+node asset_update.js
+```
+
+(シェルスクリプトファイルを作成することをお勧めします。）
+
+実行すると、自動でキャラクター・武器・聖遺物のアセットを更新します。
+
+更新時にBOTの再起動は不要です。
+
+</details>
 
 # 著作権表示
 
@@ -241,10 +291,14 @@ ArtifacterImageGen Copyright (c) Hyugo(FuroBath)
 
 GenshinArtifacter_Discrord-BOT Copyright (c) mendoitarou_
 
+EnkaNetworkAPI(ライブラリ) Copyright (c) yuko1101
 
-# お借りしたもの
+
+# お借り(使用)したもの
 
 [FuroBath/ArtifacterImageGen](https://github.com/FuroBath/ArtifacterImageGen)
+
+[yuko1101/enka-network-api](https://github.com/yuko1101/enka-network-api)
 
 # 翻訳
 このREADME-ja.mdは、DeepL翻訳ツールを使用して、日本語から英語に翻訳した後、英語から日本語に翻訳されています。

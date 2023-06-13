@@ -10,6 +10,10 @@ This is thanks to "ArtifacterImageGen" being distributed under MIT license on gi
 
 Our sincere thanks to Mr. Hyugo.
 
+Also, the "EnkaNetworkAPI" library makes it easy to update assets.
+
+My sincere thanks to yuko1101.
+
 This is almost my first time using github, so there may be mistakes, etc.
 
 I would appreciate it if you could contact me if you find any mistakes.
@@ -225,7 +229,53 @@ python bot_start.py
 
 Due to the specifications of ArtifacterImageGen, it is necessary to update assets to accommodate new elements that are added when Genshin Impact is upgraded.
 
-We are currently working on the code for updating assets, so please be patient.
+## Initial Setup
+
+<details>
+<summary>Optional settings</summary>
+
+### Installing Node.js
+
+Install the LTS version of Node.js with the following command.
+
+```
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt install nodejs -y
+```
+
+### Library Installation
+
+Change the current directory to the source directory.
+
+Execute the following command.
+
+```
+npm install enka-network-api
+```
+
+</details>
+
+## update
+
+<details>
+<summary>Optional settings</summary>
+
+**IMPORTANT**
+When updating, make sure that the EnkaNetwork is not under maintenance.
+
+To update, change the current directory to the source directory and execute the following command.
+
+```
+node asset_update.js
+```
+
+(It is recommended to create a batch file.)
+
+When run, it will automatically update character, weapon, and artifact assets.
+
+It is not necessary to restart the BOT when updating.
+
+</details>
 
 # Copylight
 
@@ -233,9 +283,13 @@ ArtifacterImageGen Copyright (c) Hyugo(FuroBath)
 
 GenshinArtifacter_Discrord-BOT Copyright (c) mendoitarou_
 
+EnkaNetworkAPI(Library) Copyright (c) yuko1101
+
 # special thanks
 
 [FuroBath/ArtifacterImageGen](https://github.com/FuroBath/ArtifacterImageGen)
+
+[yuko1101/enka-network-api](https://github.com/yuko1101/enka-network-api)
 
 # translation
 This README-en.md has been translated from Japanese to English using the DeepL translation tool.
