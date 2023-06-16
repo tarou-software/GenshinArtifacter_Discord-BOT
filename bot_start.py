@@ -3,6 +3,7 @@ import discord
 from discord import app_commands
 import random
 import os
+import datetime
 import json
 from dotenv import load_dotenv
 import requests #enka.network(ネット上)からユーザーデータ(ファイル)を取得するためのライブラリ
@@ -66,6 +67,28 @@ def check_enka_status(uid):
         return 'Server_Error'
     if(r.status_code == 503):
         return 'Server_Pause'
+
+# 元素から16進数カラーコード
+def conv_color_element_character(character_id):
+    character_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json')# キャラクター関連の情報JSON
+    character_json = character_json_ori.json()# JSON形式から変換
+    character_element = character_json[character_id]['Element']
+    # 配色参考
+    # HoyoLab(https://www.hoyolab.com/article/14008044)
+    if(character_element == 'Fire'):
+        return 0xFF6F63 # 炎元素
+    if(character_element == 'Water'):
+        return 0x4C92EA # 水元素
+    if(character_element == 'Wind'):
+        return 0x4CD9C8 # 風元素
+    if(character_element == 'Electric'):
+        return 0xC773FF # 雷元素
+    if(character_element == 'Grass'):
+        return 0x7AD84C # 草元素
+    if(character_element == 'Ice'):
+        return 0x73CCFF # 氷元素
+    if(character_element == 'Rock'):
+        return 0xE6B322 # 岩元素
 
 # UIDからプレイヤー情報のデータを取得
 def usr_info_request(uid):
@@ -166,7 +189,7 @@ class Calc_Type_Select_Menu(discord.ui.View):
         name_data_json = name_data_json_ori.json()# JSON形式から変換
         character_name_hash = character_json[f'{character_id}']['NameTextMapHash']
         character_name = name_data_json['ja'][f'{character_name_hash}']
-        embed_image=discord.Embed(title=character_name)
+        embed_image=discord.Embed(title=character_name, color=conv_color_element_character(character_id))
         fname="Image.png"
         # 画像にUIDをつけるかどうかの設定に合わせて参照画像変更
         if(config["image_uid_mode"] == True):
