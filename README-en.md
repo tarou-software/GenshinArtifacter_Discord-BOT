@@ -308,6 +308,16 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
 
+## 1.2.0
+
+<details>
+<summary>Click to open</summary>
+
+- Embedding color changes according to the element of the generated image character
+- Asset update program added
+
+</details>
+
 ## 1.1.0
 
 <details>

@@ -315,6 +315,16 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
 
+## 1.2.0
+
+<details>
+<summary>クリックして開く</summary>
+
+- 生成画像キャラの元素に応じて埋め込みの色を変化
+- アセット更新プログラムを追加
+
+</details>
+
 ## 1.1.0
 
 <details>
