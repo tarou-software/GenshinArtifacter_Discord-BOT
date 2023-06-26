@@ -327,7 +327,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 - BOTに関する情報を確認するコマンド名を変更
 - コマンドの説明を見れるコマンドを追加
 
-</summary>
+</details>
 
 ## 1.2.0
 
