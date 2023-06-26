@@ -45,10 +45,42 @@ async def on_ready():
     await client.change_presence(activity=discord.Game(name="Genshin Impact"))
     await tree.sync()
 
-# ヘルプコマンド(このBOTに関する説明)
-@tree.command(name="help",description="このBOTに関する説明。")
-async def test_command(interaction: discord.Interaction):
+# アバウトコマンド(このBOTに関する説明)
+@tree.command(name="about",description="このBOTに関する説明。")
+async def about_command(interaction: discord.Interaction):
     await interaction.response.send_message("このBOTはArtifacterImageGenをDiscord上で利用することができるBOTです。\nこのBOTのソースコードはgithub上で公開されており、誰でも簡単に利用することができます。\nGithubのURL: https://github.com/mendoitarou/GenshinArtifacter_Discrord-BOT",ephemeral=True)
+
+# ヘルプコマンド(コマンドに関する説明)
+@tree.command(name="help",description="コマンドに関する説明を表示します。")
+async def help_command(interaction: discord.Interaction, command:str):
+    if(command == None):
+        embed=discord.Embed(title='コマンドの説明')
+        embed.add_field(name='/helpのあとにコマンド名を入力することで、説明を見ることができます。', value='例: /help build')
+        embed.add_field(name='/help listコマンドを実行することでコマンド一覧を表示できます。')
+        embed.set_footer('最終更新 2023/06/26')
+        await interaction.response.send_message(embed=embed)
+    if(command == 'list'):
+        embed=discord.Embed(title='コマンド一覧')
+        embed.add_field(name='/build', value='聖遺物スコアを計算し、画像を生成します。')
+        embed.add_field(name='/uid_submit', value='UIDを登録・再登録します。')
+        embed.add_field(name='/submit_uid_check', value='登録しているUIDを確認します。')
+        #embed.add_field(name='/', value='')
+        embed.set_footer('最終更新 2023/06/26')
+    if(command == 'build'):
+        embed=discord.Embed(title='buildコマンド', description='聖遺物スコアを計算し、画像を生成します。')
+        embed.add_field(name='大まかな説明', value='聖遺物のスコア画像を生成するコマンドです。')
+        embed.add_field(name='注意点', value='既にUIDを登録しているユーザーは別のUIDを利用するにはUIDの登録をし直す必要があります。')
+        embed.set_footer('最終更新 2023/06/26')
+    if(command == 'uid_submit'):
+        embed=discord.Embed(title='uid_submitコマンド', description='UIDを登録・再登録します。')
+        embed.add_field(name='大まかな説明', value='UIDを登録するコマンドです。')
+        embed.add_field(name='注意点', value='存在しないUIDは登録できません。')
+        embed.set_footer('最終更新 2023/06/26')
+    if(command == 'submit_uid_check'):
+        embed=discord.Embed(title='submit_uid_checkコマンド', description='登録しているUIDを確認します。')
+        embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
+        embed.set_footer('最終更新 2023/06/26')
+    #if(command == ''):
 
 # APIサーバのステータス
 def check_enka_status(uid):
@@ -347,11 +379,13 @@ async def build_command(interaction:discord.Interaction):
         modal = Form_uid()
         await interaction.response.send_modal(modal)
 
+# UID登録コマンド
 @tree.command(name="uid_submit",description="UIDを登録・再登録します。")
 async def uid_submit(interaction:discord.Interaction):
     modal = register_uid()
     await interaction.response.send_modal(modal)
 
+# 登録UID確認コマンド
 @tree.command(name="submit_uid_check",description='登録しているUIDを確認します。')
 async def submit_uid_check(interaction:discord.Interaction):
     # UIDリスト読み込み
