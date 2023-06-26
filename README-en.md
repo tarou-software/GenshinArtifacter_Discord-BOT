@@ -320,7 +320,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 - Changed the name of the command to see information about the BOT
 - Added a command to view command descriptions.
 
-</summary>
+</details>
 
 ## 1.2.0
 
