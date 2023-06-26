@@ -35,6 +35,10 @@ Node.js 18.16.0
 
 npm 9.5.1
 
+# はじめに
+
+`/help`コマンドを実行して、コマンドに関する説明を見てください。
+
 # セットアップ方法
 
 ## Windows
@@ -314,6 +318,16 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
+
+## 1.2.1
+
+<details>
+<summary>クリックして開く</summary>
+
+- BOTに関する情報を確認するコマンド名を変更
+- コマンドの説明を見れるコマンドを追加
+
+</summary>
 
 ## 1.2.0
 

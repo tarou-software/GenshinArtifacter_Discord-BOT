@@ -31,6 +31,10 @@ PyYAML 6.0
 
 requests 2.28.2
 
+# Getting Started
+
+Run the `/help` command to see an explanation about the command.
+
 # How to Setup
 
 ## Windows
@@ -307,6 +311,16 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
+
+## 1.2.1
+
+<details>
+<summary>Click to open</summary>
+
+- Changed the name of the command to see information about the BOT
+- Added a command to view command descriptions.
+
+</summary>
 
 ## 1.2.0
 
