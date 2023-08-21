@@ -179,7 +179,7 @@ BOTのソースコードが入っているディレクトリ内に、「config.j
 また、
 
 ```
-"BOT_Ver" : 1.0,
+"BOT_Ver" : ~~~,
 ```
 
 という項目は**変更しないで**ください。
@@ -318,6 +318,15 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
+
+## 1.2.2
+
+<details>
+<summary>クリックして開く</summary>
+
+- 聖遺物をつけていないキャラの画像を生成しようとしたときに、エラーが発生して画像が生成されない問題を修正。
+
+</details>
 
 ## 1.2.1
 

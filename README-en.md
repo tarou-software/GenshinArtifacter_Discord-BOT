@@ -171,7 +171,7 @@ This is a **necessary setting** to use the EnkaNetwork API, so be sure to **do**
 Also,
 
 ```
-"BOT_Ver" : 1.0,
+"BOT_Ver" : ~~~,
 ```
 
 Do not **change** the item.
@@ -311,6 +311,15 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
+
+## 1.2.2
+
+<details>
+<summary>Click to open</summary>
+
+- Fixed a problem where an error occurred when trying to generate an image of a character not wearing a artifact and the image was not generated.
+
+</details>
 
 ## 1.2.1
 
