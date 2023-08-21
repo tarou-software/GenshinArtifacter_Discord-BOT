@@ -227,10 +227,11 @@ def score_json_parth(uid,character_id,calt_type):
     character_parth_json['Character']['Name'] = character_name
     ## キャラの凸数を変換・代入
     count = 0
-    for character_list_id in usr_info_json['playerInfo']['showAvatarInfoList']:
+    for character_list_id in usr_info_json['avatarInfoList']:
         if(character_list_id['avatarId'] == character_id):
-            if('talentIdList' in character_list_id.keys()):
-                count = count + 1
+            if('talentIdList' in character_list_id):
+                for character_talentIdList in character_list_id['talentIdList']:
+                    count = count + 1
     character_parth_json['Character']['Const'] = count
     ## キャラのレベルを取得・代入
     for character_list_id in usr_info_json['playerInfo']['showAvatarInfoList']:
@@ -333,6 +334,7 @@ def score_json_parth(uid,character_id,calt_type):
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_DRESS'):
                         score_save['crown'] = score_calculation(reliquary_info_list,calt_type,'crown')
                         score_save['total'] = score_save['total'] + score_save['crown']
+            # score_save['total'] = score_save['flower'] + score_save['wing'] + score_save['clock'] + score_save['cup'] + score_save['crown']
             character_parth_json['Score'] = {}
             ### 計算方法
             character_parth_json['Score']['State'] = score_cal_type_name[f'{calt_type}']
