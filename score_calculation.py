@@ -315,34 +315,54 @@ def score_json_parth(uid,character_id,calt_type):
                             character_parth_json['Weapon']['Sub']['value'] = weapon_status_list['statValue']
             ## 聖遺物スコア
             score_save = {}
+            score_save['total'] = 0
             for reliquary_info_list in character_info_list['equipList']:
                 if(reliquary_info_list['flat']['itemType'] == 'ITEM_RELIQUARY'):
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_BRACER'):
                         score_save['flower'] = score_calculation(reliquary_info_list,calt_type,'flower')
+                        score_save['total'] = score_save['total'] + score_save['flower']
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_NECKLACE'):
                         score_save['wing'] = score_calculation(reliquary_info_list,calt_type,'wing')
+                        score_save['total'] = score_save['total'] + score_save['wing']
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_SHOES'):
                         score_save['clock'] = score_calculation(reliquary_info_list,calt_type,'clock')
+                        score_save['total'] = score_save['total'] + score_save['clock']
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_RING'):
                         score_save['cup'] = score_calculation(reliquary_info_list,calt_type,'cup')
+                        score_save['total'] = score_save['total'] + score_save['cup']
                     if(reliquary_info_list['flat']['equipType'] == 'EQUIP_DRESS'):
                         score_save['crown'] = score_calculation(reliquary_info_list,calt_type,'crown')
-            score_save['total'] = score_save['flower'] + score_save['wing'] + score_save['clock'] + score_save['cup'] + score_save['crown']
+                        score_save['total'] = score_save['total'] + score_save['crown']
             character_parth_json['Score'] = {}
             ### 計算方法
             character_parth_json['Score']['State'] = score_cal_type_name[f'{calt_type}']
             ### 合計スコア
             character_parth_json['Score']['total'] = float('{0:.1f}'.format(float(Decimal(score_save['total']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
             ### 花のスコア
-            character_parth_json['Score']['flower'] = float('{0:.1f}'.format(float(Decimal(score_save['flower']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            if('flower' in score_save):
+                character_parth_json['Score']['flower'] = float('{0:.1f}'.format(float(Decimal(score_save['flower']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            else:
+                character_parth_json['Score']['flower'] = 0
             ### 羽のスコア
-            character_parth_json['Score']['wing'] = float('{0:.1f}'.format(float(Decimal(score_save['wing']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            if('wing' in score_save):
+                character_parth_json['Score']['wing'] = float('{0:.1f}'.format(float(Decimal(score_save['wing']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            else:
+                character_parth_json['Score']['wing'] = 0
             ### 時計のスコア
-            character_parth_json['Score']['clock'] = float('{0:.1f}'.format(float(Decimal(score_save['clock']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            if('clock' in score_save):
+                character_parth_json['Score']['clock'] = float('{0:.1f}'.format(float(Decimal(score_save['clock']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            else:
+                character_parth_json['Score']['clock'] = 0
             ### 盃のスコア
-            character_parth_json['Score']['cup'] = float('{0:.1f}'.format(float(Decimal(score_save['cup']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            if('cup' in score_save):
+                character_parth_json['Score']['cup'] = float('{0:.1f}'.format(float(Decimal(score_save['cup']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            else:
+                character_parth_json['Score']['cup'] = 0
             ### 冠のスコア
-            character_parth_json['Score']['crown'] = float('{0:.1f}'.format(float(Decimal(score_save['crown']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            if('crown' in score_save):
+                character_parth_json['Score']['crown'] = float('{0:.1f}'.format(float(Decimal(score_save['crown']).quantize(Decimal('0.01'), ROUND_HALF_UP))))
+            else:
+                character_parth_json['Score']['crown'] = 0
             ## 聖遺物のステータス
             character_parth_json['Artifacts'] = {}
             character_parth_json['Artifacts']['flower'] = {}
