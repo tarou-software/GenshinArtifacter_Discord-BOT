@@ -319,6 +319,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
 
+# 1.2.3
+
+<details>
+<summary>クリックして開く</summary>
+
+- キャラクターの凸数が表示されない問題を修正
+
+</details>
+
 ## 1.2.2
 
 <details>

@@ -312,6 +312,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
 
+## 1.2.3
+
+<details>
+<summary>Click to open</summary>
+
+- Fixed problem with character consts not being applied.
+
+</details>
+
 ## 1.2.2
 
 <details>
