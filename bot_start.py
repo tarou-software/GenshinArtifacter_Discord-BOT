@@ -48,7 +48,7 @@ async def on_ready():
 # アバウトコマンド(このBOTに関する説明)
 @tree.command(name="about",description="このBOTに関する説明。")
 async def about_command(interaction: discord.Interaction):
-    await interaction.response.send_message("このBOTはArtifacterImageGenをDiscord上で利用することができるBOTです。\nこのBOTのソースコードはgithub上で公開されており、誰でも簡単に利用することができます。\nGithubのURL: https://github.com/mendoitarou/GenshinArtifacter_Discrord-BOT",ephemeral=True)
+    await interaction.response.send_message("このBOTはArtifacterImageGenをDiscord上で利用することができるBOTです。\nこのBOTのソースコードはgithub上で公開されており、誰でも簡単に利用することができます。\nGithubのURL: https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT",ephemeral=True)
 
 # ヘルプコマンド(コマンドに関する説明)
 @tree.command(name="help",description="コマンドに関する説明を表示します。")
