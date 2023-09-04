@@ -62,15 +62,16 @@ async def help_command(interaction: discord.Interaction, command:str):
     if(command == 'list'):
         embed=discord.Embed(title='コマンド一覧')
         embed.add_field(name='/build', value='聖遺物スコアを計算し、画像を生成します。')
+        embed.add_field(name='/build_self', value='UIDを手動で入力して画像を生成します。')
         embed.add_field(name='/uid_submit', value='UIDを登録・再登録します。')
         embed.add_field(name='/submit_uid_check', value='登録しているUIDを確認します。')
         #embed.add_field(name='/', value='')
-        embed.set_footer('最終更新 2023/06/26')
+        embed.set_footer('最終更新 2023/09/01')
     if(command == 'build'):
         embed=discord.Embed(title='buildコマンド', description='聖遺物スコアを計算し、画像を生成します。')
         embed.add_field(name='大まかな説明', value='聖遺物のスコア画像を生成するコマンドです。')
-        embed.add_field(name='注意点', value='既にUIDを登録しているユーザーは別のUIDを利用するにはUIDの登録をし直す必要があります。')
-        embed.set_footer('最終更新 2023/06/26')
+        embed.add_field(name='注意点', value='既にUIDを登録しているユーザーは別のUIDを利用するには/build_selfコマンドを利用してください。')
+        embed.set_footer('最終更新 2023/09/01')
     if(command == 'uid_submit'):
         embed=discord.Embed(title='uid_submitコマンド', description='UIDを登録・再登録します。')
         embed.add_field(name='大まかな説明', value='UIDを登録するコマンドです。')
@@ -80,6 +81,11 @@ async def help_command(interaction: discord.Interaction, command:str):
         embed=discord.Embed(title='submit_uid_checkコマンド', description='登録しているUIDを確認します。')
         embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
         embed.set_footer('最終更新 2023/06/26')
+    if(command == 'build_self'):
+        embed=discord.Embed(title='build_selfコマンド', description='UIDを手動で入力して画像を生成します。')
+        embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
+        embed.add_field(name='注意点', value='通常は/buildコマンドを使用してください。')
+        embed.set_footer('最終更新 2023/09/01')
     #if(command == ''):
 
 # APIサーバのステータス
@@ -378,6 +384,12 @@ async def build_command(interaction:discord.Interaction):
     if(config['uid_register'] == False):
         modal = Form_uid()
         await interaction.response.send_modal(modal)
+
+# UID手動入力
+@tree.command(name="build_self",description="UIDを手動で入力して画像を生成できます。")
+async def build_uid_no(interaction:discord.Interaction):
+    modal = Form_uid()
+    await interaction.response.send_modal(modal)
 
 # UID登録コマンド
 @tree.command(name="uid_submit",description="UIDを登録・再登録します。")
