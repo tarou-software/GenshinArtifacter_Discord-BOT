@@ -312,6 +312,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
 
+## 1.2.4
+
+<details>
+<summary>Click to open</summary>
+
+- Added a command to generate an image by manually entering the UID.
+
+</details>
+
 ## 1.2.3
 
 <details>

@@ -319,6 +319,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
 
+# 1.2.4
+
+<details>
+<summary>クリックして開く</summary>
+
+- UIDを手動で入力して画像を生成するコマンドを追加
+
+</details>
+
 # 1.2.3
 
 <details>
