@@ -19,13 +19,18 @@ This is almost my first time using github, so there may be mistakes, etc.
 I would appreciate it if you could contact me if you find any mistakes.
 
 # operating environment
-Python 3.11.2
+
+These are the versions that have been tested to work.
+
+Using these versions may not work in some environments.
+
+Python 3.9.2, 3.11.2
 
 Discord.py 2.2.2
 
 python-dotenv 1.0.0
 
-Pillow 9.4.0
+Pillow 9.5.0, 10.0.1
 
 PyYAML 6.0
 
@@ -151,6 +156,8 @@ pip3 install requests
 ```
 
 Verify that everything was installed correctly.
+
+(Pillow version must be 9.5.0 or higher, ArtifacterImageGen will not work. E.g. it does not work with 8.1.2).
 
 ### Change the configuration
 
