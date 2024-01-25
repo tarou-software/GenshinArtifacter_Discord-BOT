@@ -389,7 +389,7 @@ class Form_uid(discord.ui.Modal, title='UID入力'):
         calc_save[f'{interaction.user.id}'] = {}
         calc_save[f'{interaction.user.id}']['uid'] = self.uid
         # プレイヤー情報の一次保存
-        calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(self.uid, interaction.user.id)
+        calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(self.uid)
         # ユーザー情報生成
         embed_usr_info = usr_info_embed_gene(f'{self.uid}', interaction.user.id)
         # キャラクター選択メニュー生成
@@ -427,7 +427,7 @@ async def build_command(interaction:discord.Interaction):
             calc_save[f'{interaction.user.id}'] = {}
             calc_save[f'{interaction.user.id}']['uid'] = uid_list[f'{interaction.user.id}']
             # プレイヤー情報の一次保存
-            calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'], interaction.user.id)
+            calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'])
             embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'], interaction.user.id)
             character_select = character_select_menu_gene(interaction.user.id)
             #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)
