@@ -24,17 +24,21 @@ These are the versions that have been tested to work.
 
 Using these versions may not work in some environments.
 
-Python 3.9.2, 3.11.2
+Python 3.9.2, 3.11.2, 3.12.1
 
-Discord.py 2.2.2
+Discord.py 2.2.2, 2.3.2
 
 python-dotenv 1.0.0
 
-Pillow 9.5.0, 10.0.1
+Pillow 9.5.0, 10.0.1, 10.2.0
 
-PyYAML 6.0
+PyYAML 6.0, 6.0.1
 
-requests 2.28.2
+requests 2.28.2, 2.31.0
+
+Node.js 18.16.0, 20.10.0
+
+npm 9.5.1, 10.3.0
 
 # Getting Started
 
@@ -318,6 +322,16 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
+
+# 1.2.5
+
+<details>
+<summary>Click to open</summary>
+
+- Support for new player icon format
+- Changed specification to cache API replies (recommended API behavior)
+
+</details>
 
 ## 1.2.4
 

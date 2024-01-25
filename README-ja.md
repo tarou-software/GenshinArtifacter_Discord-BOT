@@ -24,21 +24,21 @@ githubを使うのはほぼ初めてなので、間違い等あるかもしれ�
 
 これらのバージョンを使用しても環境によっては動作しない場合があります。
 
-Python 3.9.2, 3.11.2
+Python 3.9.2, 3.11.2, 3.12.1
 
-Discord.py 2.2.2
+Discord.py 2.2.2, 2.3.2
 
 python-dotenv 1.0.0
 
-Pillow 9.5.0, 10.0.1
+Pillow 9.5.0, 10.0.1, 10.2.0
 
-PyYAML 6.0
+PyYAML 6.0, 6.0.1
 
-requests 2.28.2
+requests 2.28.2, 2.31.0
 
-Node.js 18.16.0
+Node.js 18.16.0, 20.10.0
 
-npm 9.5.1
+npm 9.5.1, 10.3.0
 
 # はじめに
 
@@ -325,6 +325,16 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
+
+# 1.2.5
+
+<details>
+<summary>クリックして開く</summary>
+
+- 新しいプレイヤーアイコン形式への対応
+- APIの返答をキャッシュするように仕様変更(APIの推奨される動作)
+
+</details>
 
 # 1.2.4
 
