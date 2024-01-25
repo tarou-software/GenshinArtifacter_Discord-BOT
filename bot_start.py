@@ -4,6 +4,7 @@ from discord import app_commands
 import random
 import os
 import datetime
+from datetime import timedelta
 import json
 from dotenv import load_dotenv
 import requests #enka.network(ネット上)からユーザーデータ(ファイル)を取得するためのライブラリ
@@ -30,6 +31,10 @@ config = read_json('./config.json')
 # 環境変数読み込み
 load_dotenv()
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+
+# APIアクセス制限(キャッシュ)
+usr_info_ttl = {}
+player_api_cache = {}
 
 # 計算用一時保存辞書型
 calc_save = {}
@@ -90,21 +95,33 @@ async def help_command(interaction: discord.Interaction, command:str):
 
 # APIサーバのステータス
 def check_enka_status(uid):
-    r = requests.get(f'https://enka.network/api/uid/{uid}/')
-    if(r.status_code == 200):
+    # キャッシュが有効かチェック
+    now = datetime.datetime.now()
+    if((f'{uid}' not in usr_info_ttl) or (now > usr_info_ttl[f'{uid}'])):
+        # APIにアクセス
+        print("[APIStatusGET]GET_API")
+        bot_ver = config["BOT_Ver"]
+        Administrator_Name = config["Administrator_Name"]
+        headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
+        r = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
+        player_api_cache[f'{uid}']['status_code'] = r.status_code
+        if(r.status_code == 200):
+            return 'OK'
+        if(r.status_code == 400):
+            return 'Invalid_UID'
+        if(r.status_code == 404):
+            return 'Not_Found_Player'
+        if(r.status_code == 424):
+            return 'Maintenance'
+        if(r.status_code == 429):
+            return 'Rate_Limit'
+        if(r.status_code == 500):
+            return 'Server_Error'
+        if(r.status_code == 503):
+            return 'Server_Pause'
+    else:
+        print("[APIStatusGET]Return_cache")
         return 'OK'
-    if(r.status_code == 400):
-        return 'Invalid_UID'
-    if(r.status_code == 404):
-        return 'Not_Found_Player'
-    if(r.status_code == 424):
-        return 'Maintenance'
-    if(r.status_code == 429):
-        return 'Rate_Limit'
-    if(r.status_code == 500):
-        return 'Server_Error'
-    if(r.status_code == 503):
-        return 'Server_Pause'
 
 # 元素から16進数カラーコード
 def conv_color_element_character(character_id):
@@ -130,11 +147,43 @@ def conv_color_element_character(character_id):
 
 # UIDからプレイヤー情報のデータを取得
 def usr_info_request(uid):
-    bot_ver = config["BOT_Ver"]
-    Administrator_Name = config["Administrator_Name"]
-    headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
-    usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
-    return usr_info_json_ori.json()# JSON形式から変換
+    # キャッシュが有効かチェック
+    now = datetime.datetime.now()
+    if((f'{uid}' not in usr_info_ttl) or (now > usr_info_ttl[f'{uid}'])):
+        # APIにアクセス
+        print("[PlayerInfoGET]GET_API")
+        bot_ver = config["BOT_Ver"]
+        Administrator_Name = config["Administrator_Name"]
+        headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
+        usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
+        # API応答チェック
+        if(usr_info_json_ori.status_code == 200):
+            # 成功
+            # キャッシュ時間保存
+            usr_info_ttl[f'{uid}'] = usr_info_json_ori.json()
+            usr_info_ttl[f'{uid}'] = usr_info_ttl[f'{uid}']['ttl']
+            usr_info_ttl[f'{uid}'] = now + timedelta(seconds=int(usr_info_ttl[f'{uid}']))
+            # キャッシュ保存
+            player_api_cache[f'{uid}'] = {}# キャッシュ削除
+            player_api_cache[f'{uid}']['status_code'] = usr_info_json_ori.status_code# ステータスコード保存
+            player_api_cache[f'{uid}']['api_data'] = usr_info_json_ori.json()# JSONデータ保存
+            return usr_info_json_ori.json()# JSON形式から変換
+        if(usr_info_json_ori.status_code == 400):
+            return 'Invalid_UID'
+        if(usr_info_json_ori.status_code == 404):
+            return 'Not_Found_Player'
+        if(usr_info_json_ori.status_code == 424):
+            return 'Maintenance'
+        if(usr_info_json_ori.status_code == 429):
+            return 'Rate_Limit'
+        if(usr_info_json_ori.status_code == 500):
+            return 'Server_Error'
+        if(usr_info_json_ori.status_code == 503):
+            return 'Server_Pause'
+    else:
+        # キャッシュを返す
+        print("[PlayerInfoGET]Return_cache")
+        return player_api_cache[f'{uid}']['api_data']
 
 
 # UIDからプレイヤー情報のembedを作成
@@ -161,10 +210,21 @@ def usr_info_embed_gene(uid, user_id):
         ## アイコンにしているキャラクターの名前IDを取得
         character_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json')# キャラクター関連の情報JSON
         character_json = character_json_ori.json()# JSON形式から変換
-        icon_avatar_id = usr_info_json['playerInfo']['profilePicture']['avatarId']
-        character_side_icon_name = character_json[f'{icon_avatar_id}']['SideIconName']
+        ## 新形式IDリストを取得
+        character_new_id_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/pfps.json')# 新形式のキャラクターIDの情報JSON
+        character_new_id_json = character_new_id_json_ori.json()# JSON形式から変換
+        # アイコンのIDの形式チェック(旧型式と新形式)#id
+        if('avatarId' in usr_info_json['playerInfo']['profilePicture']):
+            # 旧型式
+            icon_avatar_id = usr_info_json['playerInfo']['profilePicture']['avatarId']
+            character_side_icon_name = character_json[f'{icon_avatar_id}']['SideIconName']
+            character_icon_name = character_side_icon_name.replace('_Side', '')
+        if('id' in usr_info_json['playerInfo']['profilePicture']):
+            # 新形式
+            icon_avatar_new_id = usr_info_json['playerInfo']['profilePicture']['id']
+            character_side_icon_name = character_new_id_json[f'{icon_avatar_new_id}']['iconPath']
+            character_icon_name = character_side_icon_name.replace('_Circle','')
         ## URL生成
-        character_icon_name = character_side_icon_name.replace('_Side', '')
         icon_link = f'https://enka.network/ui/{character_icon_name}.png'
         # ネームカードのURLを取得
         namecard_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/namecards.json')# ネームカード関連の情報JSON
@@ -218,7 +278,7 @@ class Calc_Type_Select_Menu(discord.ui.View):
         character_id = calc_save[f'{interaction.user.id}']['select_character']
         calculation_type = str(select.values[0])
         await interaction.response.defer(ephemeral=True)
-        score_calculation.image_gene(f'{uid}',f'{character_id}',f'{calculation_type}')
+        score_calculation.image_gene(f'{uid}',f'{character_id}',f'{calculation_type}',player_api_cache[f'{uid}']['api_data'])
         # キャラクター情報JSON
         character_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json')
         character_json = character_json_ori.json()# JSON形式から変換
@@ -329,7 +389,7 @@ class Form_uid(discord.ui.Modal, title='UID入力'):
         calc_save[f'{interaction.user.id}'] = {}
         calc_save[f'{interaction.user.id}']['uid'] = self.uid
         # プレイヤー情報の一次保存
-        calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(self.uid)
+        calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(self.uid, interaction.user.id)
         # ユーザー情報生成
         embed_usr_info = usr_info_embed_gene(f'{self.uid}', interaction.user.id)
         # キャラクター選択メニュー生成
@@ -367,7 +427,7 @@ async def build_command(interaction:discord.Interaction):
             calc_save[f'{interaction.user.id}'] = {}
             calc_save[f'{interaction.user.id}']['uid'] = uid_list[f'{interaction.user.id}']
             # プレイヤー情報の一次保存
-            calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'])
+            calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'], interaction.user.id)
             embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'], interaction.user.id)
             character_select = character_select_menu_gene(interaction.user.id)
             #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)

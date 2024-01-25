@@ -1,4 +1,6 @@
 import json
+import datetime
+from datetime import timedelta
 import requests
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -12,6 +14,10 @@ def read_json(path):
         data = json.load(f)
     return data
 config = read_json('./config.json')
+
+# APIアクセス制限(キャッシュ)
+usr_info_ttl = {}
+player_api_cache = {}
 
 # 元素名変換
 conv_element_name = {# 並びはロード画面の順番
@@ -104,11 +110,43 @@ reliquary_type_name = {
 
 # UIDからプレイヤー情報のデータを取得
 def usr_info_request(uid):
-    bot_ver = config["BOT_Ver"]
-    Administrator_Name = config["Administrator_Name"]
-    headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
-    usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
-    return usr_info_json_ori.json()# JSON形式から変換
+    # キャッシュが有効かチェック
+    now = datetime.datetime.now()
+    if((f'{uid}' not in usr_info_ttl) or (now > usr_info_ttl[f'{uid}'])):
+        # APIにアクセス
+        print("[PlayerInfoGET]GET_API")
+        bot_ver = config["BOT_Ver"]
+        Administrator_Name = config["Administrator_Name"]
+        headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
+        usr_info_json_ori = requests.get(f'https://enka.network/api/uid/{uid}/', headers=headers)
+        # API応答チェック
+        if(usr_info_json_ori.status_code == 200):
+            # 成功
+            # キャッシュ時間保存
+            usr_info_ttl[f'{uid}'] = usr_info_json_ori.json()
+            usr_info_ttl[f'{uid}'] = usr_info_ttl[f'{uid}']['ttl']
+            usr_info_ttl[f'{uid}'] = now + timedelta(seconds=int(usr_info_ttl[f'{uid}']))
+            # キャッシュ保存
+            player_api_cache[f'{uid}'] = {}# キャッシュ削除
+            player_api_cache[f'{uid}']['status_code'] = usr_info_json_ori.status_code# ステータスコード保存
+            player_api_cache[f'{uid}']['api_data'] = usr_info_json_ori.json()# JSONデータ保存
+            return usr_info_json_ori.json()# JSON形式から変換
+        if(usr_info_json_ori.status_code == 400):
+            return 'Invalid_UID'
+        if(usr_info_json_ori.status_code == 404):
+            return 'Not_Found_Player'
+        if(usr_info_json_ori.status_code == 424):
+            return 'Maintenance'
+        if(usr_info_json_ori.status_code == 429):
+            return 'Rate_Limit'
+        if(usr_info_json_ori.status_code == 500):
+            return 'Server_Error'
+        if(usr_info_json_ori.status_code == 503):
+            return 'Server_Pause'
+    else:
+        # キャッシュを返す
+        print("[PlayerInfoGET]Return_cache")
+        return player_api_cache[f'{uid}']['api_data']
 
 # 聖遺物ステータス
 def reliquary_status_dic(character_parth_json,reliquary_info_list,name_data_json,type):
@@ -205,11 +243,12 @@ def score_calculation(reliquary_info_list,cal_type,reliquary_type):
     return score
 
 # JSON生成
-def score_json_parth(uid,character_id,calt_type):
+def score_json_parth(uid,character_id,calt_type,usr_info_cache_json):
     uid = int(uid)
     character_id = int(character_id)
     # ユーザー情報JSON
-    usr_info_json = usr_info_request(uid)
+    #usr_info_json = usr_info_request(uid)
+    usr_info_json = usr_info_cache_json
     # キャラクター情報JSON
     character_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/characters.json')
     character_json = character_json_ori.json()# JSON形式から変換
@@ -402,14 +441,15 @@ def score_json_parth(uid,character_id,calt_type):
     return json.dumps(character_parth_json,indent=2, ensure_ascii=False)
 
 # テストでは僕のUIDでキャラは胡桃、計算方法は攻撃力%です。
-#print(score_json_parth('824242386','10000046','FIGHT_PROP_ATTACK_PERCENT'))
+# ``API_Return_JSON_Data_Cache``はキャッシュしたAPI返り値(JSON辞書型配列)を指定してください。
+#print(score_json_parth('824242386','10000046','FIGHT_PROP_ATTACK_PERCENT',API_Return_JSON_Data_Cache))
 
 # ArtifacterImageGenに渡すJSONファイル(辞書型配列)がコンソールに出力されます。
 
 # 画像生成して返り値に画像を返す関数
 
-def image_gene(uid_input,character_id_input,calt_type_input):
-    return Generater.generation(json.loads(score_json_parth(uid_input,character_id_input,calt_type_input)))
+def image_gene(uid_input,character_id_input,calt_type_input,usr_info_cache_json):
+    return Generater.generation(json.loads(score_json_parth(uid_input,character_id_input,calt_type_input,usr_info_cache_json)))
 
-#image = image_gene('824242386','10000046','FIGHT_PROP_ATTACK_PERCENT')
+#image = image_gene('824242386','10000046','FIGHT_PROP_ATTACK_PERCENT',API_Return_JSON_Data_Cache)
 #image.show()
