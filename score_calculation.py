@@ -279,6 +279,10 @@ def score_json_parth(uid,character_id,calt_type,usr_info_cache_json):
     ## キャラのステータス取得・代入
     for character_info_list in usr_info_json['avatarInfoList']:# キャラクターの詳細情報
         if(character_info_list['avatarId'] == character_id):
+            # キャラのコスチュームの有無
+            if('costumeId' in character_info_list):
+                # キャラのコスチュームID取得
+                character_parth_json['Character']['Costume'] = character_info_list['costumeId']
             # キャラの元素取得
             element_ori_name = character_json[f'{character_id}']['Element']
             element_name = conv_element_name[f'{element_ori_name}']
