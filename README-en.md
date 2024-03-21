@@ -178,7 +178,62 @@ Change to
 <details>
 <summary>Click to open</summary>
 
-Editing...
+Run the check version command to see if python is installed.
+
+```
+python --version
+```
+
+If the version is displayed, you are OK.
+
+(If it is not installed, download and install the installer from the [official page](https://www.python.org/).)
+
+Install each library using pip.
+
+The command is as follows
+
+Installs various libraries.
+```
+pip install discord.py
+```
+
+```
+pip install python-dotenv
+```
+
+```
+pip install Pillow
+```
+
+```
+pip install pyyaml
+```
+
+```
+pip install requests
+```
+
+Make sure everything is installed correctly.
+
+(Be sure to install Pillow version 9.5.0 or higher, otherwise ArtifacterImageGen will not work. Example: 8.1.2 will not work)
+
+### Launch the BOT.
+
+Launch Command Prompt, etc.
+
+Change the current directory to the source directory.
+
+Execute the following command.
+
+```
+python bot_start.py
+```
+
+(It is recommended to create a batch script file.)
+
+Confirm that "Ready! Name:~~~" is displayed and the BOT is running successfully on Discord.
+
+Translated with DeepL.com (free version)
 
 </details>
 
