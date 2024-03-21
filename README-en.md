@@ -46,16 +46,7 @@ Run the `/help` command to see an explanation about the command.
 
 # How to Setup
 
-## Windows
-
-<details>
-<summary>Click to open</summary>
-
-Editing...
-
-</details>
-
-## Linux(Debian or Ubuntu)
+## be common
 
 <details>
 <summary>Click to open</summary>
@@ -121,48 +112,6 @@ https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT
 
 Open the file ".env" in the directory and replace "token here!" with the BOT token copied in "Token Generation".
 
-### Setup Python
-Run the check version command to see if python is installed.
-
-````
-python3 --version
-````
-
-If the version is displayed, you are OK.
-
-Install pip.
-
-````
-sudo apt update
-sudo apt install python3-pip
-```` 
-
-Use PIP to install each library.
-
-```
-pip3 install discord.py
-```
-
-```
-pip3 install python-dotenv
-```
-
-```
-pip3 install Pillow
-```
-
-```
-pip3 install pyyaml
-```
-
-```
-pip3 install requests
-```
-
-Verify that everything was installed correctly.
-
-(Pillow version must be 9.5.0 or higher, ArtifacterImageGen will not work. E.g. it does not work with 8.1.2).
-
 ### Change the configuration
 
 In the directory containing the BOT source code, there is a file called "config.json".
@@ -222,6 +171,64 @@ Change to
 
 </details>
 
+</details>
+
+## Windows
+
+<details>
+<summary>Click to open</summary>
+
+Editing...
+
+</details>
+
+## Linux(Debian or Ubuntu)
+
+<details>
+<summary>Click to open</summary>
+
+### Setup Python
+Run the check version command to see if python is installed.
+
+````
+python3 --version
+````
+
+If the version is displayed, you are OK.
+
+Install pip.
+
+````
+sudo apt update
+sudo apt install python3-pip
+```` 
+
+Use PIP to install each library.
+
+```
+pip3 install discord.py
+```
+
+```
+pip3 install python-dotenv
+```
+
+```
+pip3 install Pillow
+```
+
+```
+pip3 install pyyaml
+```
+
+```
+pip3 install requests
+```
+
+Verify that everything was installed correctly.
+
+(Pillow version must be 9.5.0 or higher, ArtifacterImageGen will not work. E.g. it does not work with 8.1.2).
+
 ### Make the BOT work
 
 Launch a command prompt or similar.
@@ -231,7 +238,7 @@ Change the current directory to the source directory.
 Execute the following command
 
 ```
-python bot_start.py
+python3 bot_start.py
 ```
 
 (It is recommended to create a batch file.)

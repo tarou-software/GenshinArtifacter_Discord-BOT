@@ -46,16 +46,7 @@ npm 9.5.1, 10.3.0
 
 # セットアップ方法
 
-## Windows
-
-<details>
-<summary>クリックして開く</summary>
-
-編集中...
-
-</details>
-
-## Linux(Debian もしくは Ubuntu)
+## 共通
 
 <details>
 <summary>クリックして開く</summary>
@@ -121,52 +112,6 @@ https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT
 
 ディレクトリ内の「.env」ファイルを開き、「Please Here Your Discord BOT TOKEN」を「Token Generation」でコピーしたBOTトークンに置き換えます。
 
-### Pythonのセットアップ
-
-バージョンの確認コマンドを実行してpythonがインストールされているかを確認します。
-
-```
-python3 --version
-```
-
-バージョンが表示されたらOKです。
-
-pipをインストールします。
-
-```
-sudo apt update
-sudo apt install python3-pip
-```
-
-pipを使用して、各ライブラリをインストールします。
-
-コマンドは以下のとおりです。
-
-各種ライブラリをインストールします。
-```
-pip3 install discord.py
-```
-
-```
-pip3 install python-dotenv
-```
-
-```
-pip3 install Pillow
-```
-
-```
-pip3 install pyyaml
-```
-
-```
-pip3 install requests
-```
-
-すべてが正しくインストールされたことを確認してください。
-
-(Pillowのバージョンは必ず9.5.0以上にしてください。ArtifacterImageGenが動作しません。例:8.1.2では動きません。)
-
 ### コンフィグを変更する
 
 BOTのソースコードが入っているディレクトリ内に、「config.json」というファイルが存在します。
@@ -225,6 +170,68 @@ BOTのソースコードが入っているディレクトリ内に、「config.j
 (初期設定は有効の「true」です。)
 
 </details>
+
+</details>
+
+## Windows
+
+<details>
+<summary>クリックして開く</summary>
+
+編集中...
+
+</details>
+
+## Linux(Debian もしくは Ubuntu)
+
+<details>
+<summary>クリックして開く</summary>
+
+### Pythonのセットアップ
+
+バージョンの確認コマンドを実行してpythonがインストールされているかを確認します。
+
+```
+python3 --version
+```
+
+バージョンが表示されたらOKです。
+
+pipをインストールします。
+
+```
+sudo apt update
+sudo apt install python3-pip
+```
+
+pipを使用して、各ライブラリをインストールします。
+
+コマンドは以下のとおりです。
+
+各種ライブラリをインストールします。
+```
+pip3 install discord.py
+```
+
+```
+pip3 install python-dotenv
+```
+
+```
+pip3 install Pillow
+```
+
+```
+pip3 install pyyaml
+```
+
+```
+pip3 install requests
+```
+
+すべてが正しくインストールされたことを確認してください。
+
+(Pillowのバージョンは必ず9.5.0以上にしてください。ArtifacterImageGenが動作しません。例:8.1.2では動きません。)
 
 ### BOTを起動する
 
