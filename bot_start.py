@@ -447,27 +447,27 @@ async def build_command(interaction:discord.Interaction):
             if(temp == 'Invalid_UID'):
                 embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             elif(temp == 'Maintenance'):
                 embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             elif(temp == 'Not_Found_Player'):
                 embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             elif(temp == 'Rate_Limit'):
                 embed=discord.Embed(title='アクセス数が多いです。', description='時間をおいて再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             elif(temp == 'Server_Error'):
                 embed=discord.Embed(title='サーバーエラー', description='もう一度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             elif(temp == 'Server_Pause'):
                 embed=discord.Embed(title='サーバーポーズ', description='時間をおいて再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
-                await interaction.followup.send(embed=embed_usr_info, ephemeral=True)
+                await interaction.followup.send(embed=embed, ephemeral=True)
             else:
                 calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'])
                 embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'], interaction.user.id)
