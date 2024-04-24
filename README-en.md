@@ -385,6 +385,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
 
+## 1.2.6
+
+<details>
+<summary>Click to open</summary>
+
+- Fixed an issue where an error occurred during maintenance and exception handling was not working. A message is sent during maintenance.
+
+</details>
+
 # 1.2.5
 
 <details>

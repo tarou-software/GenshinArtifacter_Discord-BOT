@@ -386,6 +386,15 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
 
+# 1.2.6
+
+<details>
+<summary>クリックして開く</summary>
+
+- メンテナンス時にエラーが発生して例外処理が動いていない問題を修正しました。メンテナンス時にはメッセージが送信されます。
+
+</details>
+
 # 1.2.5
 
 <details>
