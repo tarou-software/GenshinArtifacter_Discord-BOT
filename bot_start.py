@@ -62,36 +62,40 @@ async def help_command(interaction: discord.Interaction, command:str):
         embed=discord.Embed(title='コマンドの説明')
         embed.add_field(name='/helpのあとにコマンド名を入力することで、説明を見ることができます。', value='例: /help build')
         embed.add_field(name='/help listコマンドを実行することでコマンド一覧を表示できます。')
-        embed.set_footer('最終更新 2023/06/26')
-        await interaction.response.send_message(embed=embed)
-    if(command == 'list'):
+        embed.set_footer(text='最終更新 2023/06/26')
+    elif(command == 'list'):
         embed=discord.Embed(title='コマンド一覧')
         embed.add_field(name='/build', value='聖遺物スコアを計算し、画像を生成します。')
         embed.add_field(name='/build_self', value='UIDを手動で入力して画像を生成します。')
         embed.add_field(name='/uid_submit', value='UIDを登録・再登録します。')
         embed.add_field(name='/submit_uid_check', value='登録しているUIDを確認します。')
         #embed.add_field(name='/', value='')
-        embed.set_footer('最終更新 2023/09/01')
-    if(command == 'build'):
+        embed.set_footer(text='最終更新 2023/09/01')
+    elif(command == 'build'):
         embed=discord.Embed(title='buildコマンド', description='聖遺物スコアを計算し、画像を生成します。')
         embed.add_field(name='大まかな説明', value='聖遺物のスコア画像を生成するコマンドです。')
         embed.add_field(name='注意点', value='既にUIDを登録しているユーザーは別のUIDを利用するには/build_selfコマンドを利用してください。')
-        embed.set_footer('最終更新 2023/09/01')
-    if(command == 'uid_submit'):
-        embed=discord.Embed(title='uid_submitコマンド', description='UIDを登録・再登録します。')
-        embed.add_field(name='大まかな説明', value='UIDを登録するコマンドです。')
-        embed.add_field(name='注意点', value='存在しないUIDは登録できません。')
-        embed.set_footer('最終更新 2023/06/26')
-    if(command == 'submit_uid_check'):
-        embed=discord.Embed(title='submit_uid_checkコマンド', description='登録しているUIDを確認します。')
-        embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
-        embed.set_footer('最終更新 2023/06/26')
-    if(command == 'build_self'):
+        embed.set_footer(text='最終更新 2023/09/01')
+    elif(command == 'build_self'):
         embed=discord.Embed(title='build_selfコマンド', description='UIDを手動で入力して画像を生成します。')
         embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
         embed.add_field(name='注意点', value='通常は/buildコマンドを使用してください。')
-        embed.set_footer('最終更新 2023/09/01')
-    #if(command == ''):
+        embed.set_footer(text='最終更新 2023/09/01')
+    elif(command == 'uid_submit'):
+        embed=discord.Embed(title='uid_submitコマンド', description='UIDを登録・再登録します。')
+        embed.add_field(name='大まかな説明', value='UIDを登録するコマンドです。')
+        embed.add_field(name='注意点', value='存在しないUIDは登録できません。')
+        embed.set_footer(text='最終更新 2023/06/26')
+    elif(command == 'submit_uid_check'):
+        embed=discord.Embed(title='submit_uid_checkコマンド', description='登録しているUIDを確認します。')
+        embed.add_field(name='大まかな説明', value='登録しているUIDを確認するコマンドです。')
+        embed.set_footer(text='最終更新 2023/06/26')
+    #elif(command == ''):
+    else:
+        embed=discord.Embed(title='コマンドが見つかりません。', description='存在しないコマンドか、ヘルプが用意されていないコマンドです。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+    # 送信
+    await interaction.response.send_message(embed=embed)
 
 # APIサーバのステータス
 def check_enka_status(uid):
@@ -99,7 +103,7 @@ def check_enka_status(uid):
     now = datetime.datetime.now()
     if((f'{uid}' not in usr_info_ttl) or (now > usr_info_ttl[f'{uid}'])):
         # APIにアクセス
-        print("[APIStatusGET]GET_API")
+        #print("[APIStatusGET]GET_API")
         bot_ver = config["BOT_Ver"]
         Administrator_Name = config["Administrator_Name"]
         headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
@@ -108,20 +112,22 @@ def check_enka_status(uid):
         player_api_cache[f'{uid}']['status_code'] = int(r.status_code)
         if(r.status_code == 200):
             return 'OK'
-        if(r.status_code == 400):
+        elif(r.status_code == 400):
             return 'Invalid_UID'
-        if(r.status_code == 404):
+        elif(r.status_code == 404):
             return 'Not_Found_Player'
-        if(r.status_code == 424):
+        elif(r.status_code == 424):
             return 'Maintenance'
-        if(r.status_code == 429):
+        elif(r.status_code == 429):
             return 'Rate_Limit'
-        if(r.status_code == 500):
+        elif(r.status_code == 500):
             return 'Server_Error'
-        if(r.status_code == 503):
+        elif(r.status_code == 503):
             return 'Server_Pause'
+        else:
+            return 'Unknown_Error'
     else:
-        print("[APIStatusGET]Return_cache")
+        #print("[APIStatusGET]Return_cache")
         return 'OK'
 
 # 元素から16進数カラーコード
@@ -152,7 +158,7 @@ def usr_info_request(uid):
     now = datetime.datetime.now()
     if((f'{uid}' not in usr_info_ttl) or (now > usr_info_ttl[f'{uid}'])):
         # APIにアクセス
-        print("[PlayerInfoGET]GET_API")
+        #print("[PlayerInfoGET]GET_API")
         bot_ver = config["BOT_Ver"]
         Administrator_Name = config["Administrator_Name"]
         headers = { 'User-Agent': f'GenshinArtifacter_Discrord-BOT_Ver{bot_ver}(Administrator: {Administrator_Name})' }
@@ -169,41 +175,54 @@ def usr_info_request(uid):
             player_api_cache[f'{uid}']['status_code'] = usr_info_json_ori.status_code# ステータスコード保存
             player_api_cache[f'{uid}']['api_data'] = usr_info_json_ori.json()# JSONデータ保存
             return usr_info_json_ori.json()# JSON形式から変換
-        if(usr_info_json_ori.status_code == 400):
+        elif(usr_info_json_ori.status_code == 400):
             return 'Invalid_UID'
-        if(usr_info_json_ori.status_code == 404):
+        elif(usr_info_json_ori.status_code == 404):
             return 'Not_Found_Player'
-        if(usr_info_json_ori.status_code == 424):
+        elif(usr_info_json_ori.status_code == 424):
             return 'Maintenance'
-        if(usr_info_json_ori.status_code == 429):
+        elif(usr_info_json_ori.status_code == 429):
             return 'Rate_Limit'
-        if(usr_info_json_ori.status_code == 500):
+        elif(usr_info_json_ori.status_code == 500):
             return 'Server_Error'
-        if(usr_info_json_ori.status_code == 503):
+        elif(usr_info_json_ori.status_code == 503):
             return 'Server_Pause'
+        else:
+            return 'Unknown_Error'
     else:
         # キャッシュを返す
-        print("[PlayerInfoGET]Return_cache")
+        #print("[PlayerInfoGET]Return_cache")
         return player_api_cache[f'{uid}']['api_data']
 
 
 # UIDからプレイヤー情報のembedを作成
 def usr_info_embed_gene(uid, user_id):
     get_enka_status = check_enka_status(f'{uid}')
-    if(get_enka_status != 'OK'):
-        if(get_enka_status == 'Invalid_UID'):
-            embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
-            embed.set_footer(text='Genshin_Image_Generator_BOT')
-            return embed
-        if(get_enka_status == 'Not_Found_Player'):
-            embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
-            embed.set_footer(text='Genshin_Image_Generator_BOT')
-            return embed
-        if(get_enka_status == 'Maintenance'):
-            embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
-            embed.set_footer(text='Genshin_Image_Generator_BOT')
-            return embed
-    else:
+    if(get_enka_status == 'Invalid_UID'):
+        embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'Maintenance'):
+        embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'Not_Found_Player'):
+        embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'Rate_Limit'):
+        embed=discord.Embed(title='アクセス数が多いです。', description='時間をおいて再度お試しください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'Server_Error'):
+        embed=discord.Embed(title='サーバーエラー', description='もう一度お試しください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'Server_Pause'):
+        embed=discord.Embed(title='サーバーポーズ', description='時間をおいて再度お試しください。')
+        embed.set_footer(text='Genshin_Image_Generator_BOT')
+        return embed
+    elif(get_enka_status == 'OK'):
         # プレイヤー情報を取得
         usr_info_json = calc_save[f'{user_id}']['player_info_data']# JSON形式から変換
         name_data_json_ori = requests.get('https://raw.githubusercontent.com/EnkaNetwork/API-docs/master/store/loc.json')# アイテムなどの名前関連の情報JSON
@@ -257,6 +276,10 @@ def usr_info_embed_gene(uid, user_id):
         embed_usr_info.set_image(url=namecard_link)# 名刺を表示
         embed_usr_info.set_footer(text=f'{usr_info_text}')# フッターとして指定することで、画像の下にテキストを表示できる
         return embed_usr_info
+    else:
+        embed=discord.Embed(title='不明なエラー', description='想定外のエラーが発生しました。もう一度やり直してください。')
+        embed.set_footer(test='Genshin_Image_Generator_BOT')
+        return embed
 
 # 計算方法選択メニュー
 class Calc_Type_Select_Menu(discord.ui.View):
@@ -361,23 +384,34 @@ class register_uid(discord.ui.Modal, title='UID登録'):
     # UID入力後動作
     async def on_submit(self, interaction: discord.Interaction):
         get_enka_status = check_enka_status(f'{self.uid}')
-        if(get_enka_status != 'OK'):
-            if(get_enka_status == 'Invalid_UID'):
-                embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
-            if(get_enka_status == 'Not_Found_Player'):
-                embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
-            if(get_enka_status == 'Maintenance'):
-                embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
-        else:
+        if(get_enka_status == 'Invalid_UID'):
+            embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'Maintenance'):
+            embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'Not_Found_Player'):
+            embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'Rate_Limit'):
+            embed=discord.Embed(title='アクセス数が多いです。', description='時間をおいて再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'Server_Error'):
+            embed=discord.Embed(title='サーバーエラー', description='もう一度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'Server_Pause'):
+            embed=discord.Embed(title='サーバーポーズ', description='時間をおいて再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+        elif(get_enka_status == 'OK'):
             uid_list = read_json('./uid_list.json')
             uid_list[f'{interaction.user.id}'] = f'{self.uid}'
             write_json('./uid_list.json',uid_list)
             embed=discord.Embed(title='UID登録完了',description='再度/buildコマンドを実行してください。')
             embed.add_field(name='uid',value=f'{self.uid}')
             embed.set_footer(text='Genshin_Image_Generator_BOT')
+        else:
+            embed=discord.Embed(title='不明なエラー', description='想定外のエラーが発生しました。もう一度やり直してください。')
+            embed.set_footer(test='Genshin_Image_Generator_BOT')
         await interaction.response.send_message(embed=embed, ephemeral=True)
 
 # UID取得フォーム作成
@@ -387,18 +421,31 @@ class Form_uid(discord.ui.Modal, title='UID入力'):
     # UID入力後動作
     async def on_submit(self, interaction: discord.Interaction):
         get_enka_status = check_enka_status(f'{self.uid}')
-        if(get_enka_status != 'OK'):
-            if(get_enka_status == 'Invalid_UID'):
-                embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
-            if(get_enka_status == 'Not_Found_Player'):
-                embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
-            if(get_enka_status == 'Maintenance'):
-                embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
-                embed.set_footer(text='Genshin_Image_Generator_BOT')
+        if(get_enka_status == 'Invalid_UID'):
+            embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
             await interaction.response.send_message(embed=embed, ephemeral=True)
-        else:
+        elif(get_enka_status == 'Maintenance'):
+            embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        elif(get_enka_status == 'Not_Found_Player'):
+            embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        elif(get_enka_status == 'Rate_Limit'):
+            embed=discord.Embed(title='アクセス数が多いです。', description='時間をおいて再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        elif(get_enka_status == 'Server_Error'):
+            embed=discord.Embed(title='サーバーエラー', description='もう一度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        elif(get_enka_status == 'Server_Pause'):
+            embed=discord.Embed(title='サーバーポーズ', description='時間をおいて再度お試しください。')
+            embed.set_footer(text='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
+        elif(get_enka_status == 'OK'):
             # 待ってもらう
             await interaction.response.defer(ephemeral=True)
             # UIDの一時保存
@@ -413,6 +460,10 @@ class Form_uid(discord.ui.Modal, title='UID入力'):
             # 送信
             #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)
             await interaction.followup.send(view=character_select, embed=embed_usr_info, ephemeral=True)
+        else:
+            embed=discord.Embed(title='不明なエラー', description='想定外のエラーが発生しました。もう一度やり直してください。')
+            embed.set_footer(test='Genshin_Image_Generator_BOT')
+            await interaction.response.send_message(embed=embed, ephemeral=True)
 
 # ビルドコマンド実行時、uid未登録者へのUID登録促し時に使うボタン
 ## 登録
@@ -443,33 +494,33 @@ async def build_command(interaction:discord.Interaction):
             calc_save[f'{interaction.user.id}'] = {}
             calc_save[f'{interaction.user.id}']['uid'] = uid_list[f'{interaction.user.id}']
             # プレイヤー情報の一次保存
-            temp = usr_info_request(uid_list[f'{interaction.user.id}'])
-            if(temp == 'Invalid_UID'):
+            result_info_request = usr_info_request(uid_list[f'{interaction.user.id}'])
+            if(result_info_request == 'Invalid_UID'):
                 embed=discord.Embed(title='不正なUIDが入力されました。', description='UIDが正しいか確認してください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
-            elif(temp == 'Maintenance'):
+            elif(result_info_request == 'Maintenance'):
                 embed=discord.Embed(title='enka.networkがメンテナンス中です！', description='UIDの確認ができないため、メンテナンス終了後に再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
-            elif(temp == 'Not_Found_Player'):
+            elif(result_info_request == 'Not_Found_Player'):
                 embed=discord.Embed(title='プレイヤーが見つかりません。', description='UIDが正しいか確認してください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
-            elif(temp == 'Rate_Limit'):
+            elif(result_info_request == 'Rate_Limit'):
                 embed=discord.Embed(title='アクセス数が多いです。', description='時間をおいて再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
-            elif(temp == 'Server_Error'):
+            elif(result_info_request == 'Server_Error'):
                 embed=discord.Embed(title='サーバーエラー', description='もう一度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
-            elif(temp == 'Server_Pause'):
+            elif(result_info_request == 'Server_Pause'):
                 embed=discord.Embed(title='サーバーポーズ', description='時間をおいて再度お試しください。')
                 embed.set_footer(text='Genshin_Image_Generator_BOT')
                 await interaction.followup.send(embed=embed, ephemeral=True)
             else:
-                calc_save[f'{interaction.user.id}']['player_info_data'] = usr_info_request(uid_list[f'{interaction.user.id}'])
+                calc_save[f'{interaction.user.id}']['player_info_data'] = result_info_request
                 embed_usr_info = usr_info_embed_gene(uid_list[f'{interaction.user.id}'], interaction.user.id)
                 character_select = character_select_menu_gene(interaction.user.id)
                 #await interaction.response.send_message(view=character_select, embed=embed_usr_info, ephemeral=True)
