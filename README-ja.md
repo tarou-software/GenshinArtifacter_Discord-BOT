@@ -372,7 +372,7 @@ EnkaNetworkAPI(ライブラリ) Copyright (c) yuko1101
 [yuko1101/enka-network-api](https://github.com/yuko1101/enka-network-api)
 
 # 翻訳
-このREADME-ja.mdは、DeepL翻訳ツールを使用して、日本語から英語に翻訳した後、英語から日本語に翻訳されています。
+このREADME-ja.mdは「DeepL翻訳ツール」を使用して、一部の文章が日本語から英語に翻訳した後、英語から日本語に翻訳されています。
 
 https://www.deepl.com/ja/translator
 
@@ -386,7 +386,17 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # リリースノート
 
-# 1.2.6
+## 1.2.6.1
+
+<details>
+<summary>クリックして開く</summary>
+
+- 例外処理を追加
+- 一部内部コードの最適化
+
+</details>
+
+## 1.2.6
 
 <details>
 <summary>クリックして開く</summary>
@@ -395,7 +405,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-# 1.2.5
+## 1.2.5
 
 <details>
 <summary>クリックして開く</summary>
@@ -405,7 +415,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-# 1.2.4
+## 1.2.4
 
 <details>
 <summary>クリックして開く</summary>
@@ -414,7 +424,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-# 1.2.3
+## 1.2.3
 
 <details>
 <summary>クリックして開く</summary>

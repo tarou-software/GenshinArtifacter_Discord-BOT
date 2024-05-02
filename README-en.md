@@ -369,7 +369,7 @@ EnkaNetworkAPI(Library) Copyright (c) yuko1101
 [yuko1101/enka-network-api](https://github.com/yuko1101/enka-network-api)
 
 # translation
-This README-en.md has been translated from Japanese to English using the DeepL translation tool.
+This README-en.md has been translated from English to Japanese after some text has been translated from Japanese to English using the 'DeepL translation tool'.
 
 https://www.deepl.com/ja/translator
 
@@ -384,6 +384,16 @@ Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 # Release Notes
+
+## 1.2.6.1
+
+<details>
+<summary>Click to open</summary>
+
+- Exception handling added
+- Some internal code optimisation
+
+</details>
 
 ## 1.2.6
 
