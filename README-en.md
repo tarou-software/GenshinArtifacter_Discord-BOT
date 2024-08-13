@@ -1,6 +1,9 @@
 # GenshinArtifacter_Discrord-BOT
 
-# What is this?
+## About the end of development
+The development of this BOT has been terminated. The repository will therefore be archived.
+
+## What is this?
 
 This is a code to make "ArtifacterImageGen", which calculates scores of relics of the Genshin Impact and generates images, available as a BOT for Discord.
 
@@ -18,7 +21,7 @@ This is almost my first time using github, so there may be mistakes, etc.
 
 I would appreciate it if you could contact me if you find any mistakes.
 
-# operating environment
+## operating environment
 
 These are the versions that have been tested to work.
 
@@ -40,18 +43,18 @@ Node.js 18.16.0, 20.10.0
 
 npm 9.5.1, 10.3.0
 
-# Getting Started
+## Getting Started
 
 Run the `/help` command to see an explanation about the command.
 
-# How to Setup
+## How to Setup
 
-## be common
+### be common
 
 <details>
 <summary>Click to open</summary>
 
-### Create Disocrd BOT
+#### Create Disocrd BOT
 
 Access the DiscordDeveloperPortal.
 
@@ -71,7 +74,7 @@ Click "Yes, do it!" when the confirmation dialog appears.
 
 (If 2FA is set, please authenticate.)
 
-### Token Generation
+#### Token Generation
 
 Click on "Copy" under "TOKEN" to copy the BOT token.
 
@@ -79,13 +82,13 @@ Make a note (paste) of this token in a notepad, etc.
 
 This token must not be seen by anyone.
 
-### Setting BOT
+#### Setting BOT
 
 Turn ON "PRESENCE INTENT", "SERVER MEMBERS INTENT", and "MESSAGE CONTENT INTENT" in "Privileged Gateway Intents".
 
 Remember to click "Save Changes" to save your changes.
 
-### Allow BOTs to join the server
+#### Allow BOTs to join the server
 
 Select "OAuth2" and "URL Generator" from the menu.
 
@@ -103,7 +106,7 @@ Clear the hCaptcha authorization and enlist the BOT.
 
 This completes the preconfiguration of the Discord BOT.
 
-### Download Source
+#### Download Source
 Download this repository from github as a zip file or clone it with GithubCLI, etc.
 
 https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT
@@ -112,7 +115,7 @@ https://github.com/tarou-software/GenshinArtifacter_Discrord-BOT
 
 Open the file ".env" in the directory and replace "token here!" with the BOT token copied in "Token Generation".
 
-### Change the configuration
+#### Change the configuration
 
 In the directory containing the BOT source code, there is a file called "config.json".
 
@@ -139,7 +142,7 @@ Do not **change** the item.
 <details>
 <summary>Optional settings</summary>
 
-#### uid_register
+##### uid_register
 
 ```
 "uid_register" : true,
@@ -154,7 +157,7 @@ Change to
 
 (The default setting is "true", which is enabled.)
 
-#### image_uid_mode
+##### image_uid_mode
 
 ```
 "image_uid_mode" : true
@@ -173,7 +176,7 @@ Change to
 
 </details>
 
-## Windows
+### Windows
 
 <details>
 <summary>Click to open</summary>
@@ -217,7 +220,7 @@ Make sure everything is installed correctly.
 
 (Be sure to install Pillow version 9.5.0 or higher, otherwise ArtifacterImageGen will not work. Example: 8.1.2 will not work)
 
-### Launch the BOT.
+#### Launch the BOT.
 
 Launch Command Prompt, etc.
 
@@ -237,12 +240,12 @@ Translated with DeepL.com (free version)
 
 </details>
 
-## Linux(Debian or Ubuntu)
+### Linux(Debian or Ubuntu)
 
 <details>
 <summary>Click to open</summary>
 
-### Setup Python
+#### Setup Python
 Run the check version command to see if python is installed.
 
 ````
@@ -284,7 +287,7 @@ Verify that everything was installed correctly.
 
 (Pillow version must be 9.5.0 or higher, ArtifacterImageGen will not work. E.g. it does not work with 8.1.2).
 
-### Make the BOT work
+#### Make the BOT work
 
 Launch a command prompt or similar.
 
@@ -302,16 +305,16 @@ python3 bot_start.py
 
 </details>
 
-# Asset Update
+## Asset Update
 
 Due to the specifications of ArtifacterImageGen, it is necessary to update assets to accommodate new elements that are added when Genshin Impact is upgraded.
 
-## Initial Setup
+### Initial Setup
 
 <details>
 <summary>Optional settings</summary>
 
-### Installing Node.js
+#### Installing Node.js
 
 Install the LTS version of Node.js with the following command.
 
@@ -320,7 +323,7 @@ curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 sudo apt install nodejs -y
 ```
 
-### Library Installation
+#### Library Installation
 
 Change the current directory to the source directory.
 
@@ -332,7 +335,7 @@ npm install enka-network-api
 
 </details>
 
-## update
+### update
 
 <details>
 <summary>Optional settings</summary>
@@ -354,38 +357,44 @@ It is not necessary to restart the BOT when updating.
 
 </details>
 
-# Copylight
+## Copylight
 
-ArtifacterImageGen Copyright (c) Hyugo(FuroBath)
+"Genshin Impact" is registered trademarks or trademarks of 上海米哈游綱絡科技股分有限公司(miHoYo) and COGNOSPHERE.
+
+ArtifacterImageGen Copyright (c) Hyugo(FuroBath) ([artifacterbot - Twitter](https://twitter.com/artifacterbot))
 
 GenshinArtifacter_Discrord-BOT Copyright (c) mendoitarou_
 
 EnkaNetworkAPI(Library) Copyright (c) yuko1101
 
-# special thanks
+## special thanks
 
 [FuroBath/ArtifacterImageGen](https://github.com/FuroBath/ArtifacterImageGen)
 
 [yuko1101/enka-network-api](https://github.com/yuko1101/enka-network-api)
 
-# translation
+## translation
 This README-en.md has been translated from English to Japanese after some text has been translated from Japanese to English using the 'DeepL translation tool'.
 
 https://www.deepl.com/ja/translator
 
-# Contact
+## Contact
 
 It may take some time for us to reply.
 
 Please understand that it may take some time to reply.
 
+**Due to the end of development, we are unable to reply to any enquiries about this BOT.**
+
+**Please note that we cannot reply to inquiries about this BOT.**
+
 Twitter: [@mendoitarou_](https://twitter.com/mendoitarou_)
 
 E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
-# Release Notes
+## Release Notes
 
-## 1.2.6.1
+### 1.2.6.1
 
 <details>
 <summary>Click to open</summary>
@@ -395,7 +404,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.6
+### 1.2.6
 
 <details>
 <summary>Click to open</summary>
@@ -404,7 +413,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-# 1.2.5
+### 1.2.5
 
 <details>
 <summary>Click to open</summary>
@@ -414,7 +423,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.4
+### 1.2.4
 
 <details>
 <summary>Click to open</summary>
@@ -423,7 +432,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.3
+### 1.2.3
 
 <details>
 <summary>Click to open</summary>
@@ -432,7 +441,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.2
+### 1.2.2
 
 <details>
 <summary>Click to open</summary>
@@ -441,7 +450,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.1
+### 1.2.1
 
 <details>
 <summary>Click to open</summary>
@@ -451,7 +460,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.2.0
+### 1.2.0
 
 <details>
 <summary>Click to open</summary>
@@ -461,7 +470,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.1.0
+### 1.1.0
 
 <details>
 <summary>Click to open</summary>
@@ -474,7 +483,7 @@ E-Mail: [contact@mendoitarou.com](mailto:contact@mendoitarou.com)
 
 </details>
 
-## 1.0.0
+### 1.0.0
 
 <details>
 <summary>Click to open</summary>
